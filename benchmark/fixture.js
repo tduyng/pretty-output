@@ -24,7 +24,7 @@ internals.make.error = () => {
 }
 
 internals.weightedRand = (weigths) => {
-    const entries = _.toPairs(weigths)
+    const entries = Object.entries(weigths)
 
     let runningSum = 0
     const weightSum = entries.reduce((sum, value) => sum + value[1], 0)
@@ -57,9 +57,9 @@ internals.makeLevelArray = (weights, keysCount) => {
     const result = []
 
     const types = internals.weightedRands(weights, keysCount)
-    _.forEach(types, (type) => {
+    for (const type of types) {
         result.push(internals.make[type]())
-    })
+    }
     return result
 }
 
@@ -84,16 +84,16 @@ internals.makeLevelElements = (weights, keysCount, levelElements) => {
         if (JSON.stringify(currentElement) === '[]') {
             const elementContent = internals.makeLevelArray(weights, keysCount)
 
-            _.forEach(elementContent, (element) => {
+            for (const element of elementContent) {
                 currentElement.push(element)
                 nextLevel.push(element)
-            })
+            }
         } else if (JSON.stringify(currentElement) === '{}') {
             const elementContent = internals.makeLevelObject(weights, keysCount)
-            _.forOwn(elementContent, (value, key) => {
+            for (const [key, value] of Object.entries(elementContent)) {
                 currentElement[key] = value
                 nextLevel.push(value)
-            })
+            }
         }
     }
 

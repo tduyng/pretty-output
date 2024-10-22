@@ -3,7 +3,7 @@ const columnify = require('columnify')
 const prettyjson = require('prettyjson')
 
 const fixture = require('./fixture')
-const prettyoutput = require('../lib/prettyoutput')
+const prettyoutput = require('../lib/index')
 const stats = require('./stats')
 
 function runFunction(loopCount, fn) {
@@ -68,7 +68,7 @@ function makeBench(weights, levels, keysCount, loopCount) {
     const utilInspectStats = stats.stats(utilInspectDiffs)
 
     const result = [
-        { name: 'prettyoutput', ...stats.prettyStats(prettyOutputStats) },
+        { name: 'pretty-output', ...stats.prettyStats(prettyOutputStats) },
         { name: 'prettyjson', ...stats.prettyStats(prettyJsonStats) },
         { name: 'util.inspect', ...stats.prettyStats(utilInspectStats) },
     ]
