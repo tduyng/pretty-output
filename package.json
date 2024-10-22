@@ -43,7 +43,6 @@
         "check": "biome check",
         "test": "./node_modules/.bin/mocha --reporter spec",
         "coverage": "nyc npm run test",
-        "codecov": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec",
         "benchmark": "node ./benchmark/benchmark.js",
         "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent"
     },
