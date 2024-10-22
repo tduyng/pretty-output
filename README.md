@@ -177,4 +177,4 @@ $ npm test
 [coveralls-url]: https://codecov.io/github/keepitcool/prettyoutput?branch=master
 
 ## Credits
-This is a fork of the great work from the project [pretty-output](https://github.com/keepitcool/prettyoutput)
+This is a fork of the great work from the project [prettyoutput](https://github.com/keepitcool/prettyoutput)

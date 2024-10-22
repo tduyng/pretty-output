@@ -1,4 +1,4 @@
-const prettyoutput = require('../lib/prettyoutput')
+const prettyoutput = require('../lib/index')
 const should = require('should')
 const colors = require('colors/safe')
 
