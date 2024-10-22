@@ -1,6 +1,5 @@
 const util = require('node:util')
 const columnify = require('columnify')
-const _ = require('lodash')
 const prettyjson = require('prettyjson')
 
 const fixture = require('./fixture')
@@ -41,19 +40,21 @@ function runPrettyJson(element, loopCount) {
 
 function prettyWeights(weights) {
     let result = ''
-    _.forOwn(weights, (value, key) => {
+    for (const [key, value] of Object.entries(weights)) {
         result += `${key}: ${value}    `
-    })
+    }
     return result
 }
 
 function makeBench(weights, levels, keysCount, loopCount) {
     console.log('\n')
 
-    const benchDesc = _.assign(
-        { levels: levels, keys: keysCount, loops: loopCount },
-        { weigths: prettyWeights(weights) }
-    )
+    const benchDesc = {
+        levels: levels,
+        keys: keysCount,
+        loops: loopCount,
+        weights: prettyWeights(weights),
+    }
     console.log(columnify([benchDesc], { columnSplitter: ' | ' }), '\n')
 
     const element = fixture.makeElement(weights, levels, keysCount)
@@ -67,9 +68,9 @@ function makeBench(weights, levels, keysCount, loopCount) {
     const utilInspectStats = stats.stats(utilInspectDiffs)
 
     const result = [
-        _.assign({ name: 'prettyoutput' }, stats.prettyStats(prettyOutputStats)),
-        _.assign({ name: 'prettyjson' }, stats.prettyStats(prettyJsonStats)),
-        _.assign({ name: 'util.inspect' }, stats.prettyStats(utilInspectStats)),
+        { name: 'prettyoutput', ...stats.prettyStats(prettyOutputStats) },
+        { name: 'prettyjson', ...stats.prettyStats(prettyJsonStats) },
+        { name: 'util.inspect', ...stats.prettyStats(utilInspectStats) },
     ]
 
     console.log(columnify(result, { columnSplitter: ' | ' }))
@@ -99,6 +100,6 @@ const tests = [
     },
 ]
 
-_.forEach(tests, (test) => {
+for (const test of tests) {
     makeBench(test.weights, test.levels, test.keys, test.loops)
-})
+}

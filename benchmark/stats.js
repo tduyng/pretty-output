@@ -1,5 +1,3 @@
-const _ = require('lodash')
-
 // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
 const fixedInt = (exports.fixedInt = (v) => Math.floor(v))
 
@@ -35,11 +33,11 @@ exports.stats = (diffs) => {
     let max = diffs[0]
     let total = 0
 
-    _.forEach(diffs, (diff) => {
+    for (const diff of diffs) {
         min = Math.min(min, diff)
         max = Math.max(max, diff)
         total += diff
-    })
+    }
 
     const mean = total / diffs.length
     return { min, max, mean, total }
