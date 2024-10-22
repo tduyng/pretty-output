@@ -37,6 +37,14 @@ node_modules
 
 ## Editor
 .idea
-
+.vscode
 ## MacOS
 .DS_Store
+
+# Yarn 2
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
