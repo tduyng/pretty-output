@@ -1,7 +1,5 @@
-'use strict'
-
 const prettyoutput = require('../lib/prettyoutput')
-const should = require('should') //eslint-disable-line no-unused-vars
+const should = require('should')
 const colors = require('colors/safe')
 
 describe('prettyoutput general tests', () => {
@@ -30,7 +28,9 @@ describe('prettyoutput general tests', () => {
         const input = ['first string', 'second string']
         const output = prettyoutput(input)
 
-        output.should.equal([colors.green('- ') + input[0], colors.green('- ') + input[1], ''].join('\n'))
+        output.should.equal(
+            [colors.green('- ') + input[0], colors.green('- ') + input[1], ''].join('\n')
+        )
     })
 
     it('should output an array of arrays', () => {
@@ -44,7 +44,7 @@ describe('prettyoutput general tests', () => {
                 colors.green('  - ') + input[1][0],
                 colors.green('  - ') + input[1][1],
                 colors.green('- ') + input[2],
-                ''
+                '',
             ].join('\n')
         )
     })
@@ -53,11 +53,20 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 'first string', param2: 'second string' }
         const output = prettyoutput(input)
 
-        output.should.equal([`${colors.green('param1: ')}first string`, `${colors.green('param2: ')}second string`, ''].join('\n'))
+        output.should.equal(
+            [
+                `${colors.green('param1: ')}first string`,
+                `${colors.green('param2: ')}second string`,
+                '',
+            ].join('\n')
+        )
     })
 
     it('should output a hash of hashes', () => {
-        const input = { firstParam: { subparam: 'first string', subparam2: 'another string' }, secondParam: 'second string' }
+        const input = {
+            firstParam: { subparam: 'first string', subparam2: 'another string' },
+            secondParam: 'second string',
+        }
         const output = prettyoutput(input)
 
         output.should.equal(
@@ -66,7 +75,7 @@ describe('prettyoutput general tests', () => {
                 `${colors.green('  subparam: ')} first string`,
                 `${colors.green('  subparam2: ')}another string`,
                 `${colors.green('secondParam: ')}second string`,
-                ''
+                '',
             ].join('\n')
         )
     })
@@ -76,7 +85,11 @@ describe('prettyoutput general tests', () => {
         const output = prettyoutput(input)
 
         output.should.equal(
-            [`${colors.green('veryLargeParam: ')}first string`, `${colors.green('param: ')}         second string`, ''].join('\n')
+            [
+                `${colors.green('veryLargeParam: ')}first string`,
+                `${colors.green('param: ')}         second string`,
+                '',
+            ].join('\n')
         )
     })
 
@@ -85,16 +98,16 @@ describe('prettyoutput general tests', () => {
             firstParam: {
                 subparam: 'first string',
                 subparam2: 'another string',
-                subparam3: ['different', 'values', 'in an array']
+                subparam3: ['different', 'values', 'in an array'],
             },
             secondParam: 'second string',
             anArray: [
                 {
                     param3: 'value',
-                    param10: 'other value'
-                }
+                    param10: 'other value',
+                },
             ],
-            emptyArray: []
+            emptyArray: [],
         }
 
         const output = prettyoutput(input)
@@ -114,7 +127,7 @@ describe('prettyoutput general tests', () => {
                 `${colors.green('    param3: ')} value`,
                 `${colors.green('    param10: ')}other value`,
                 `${colors.green('emptyArray: ')} (empty array)`,
-                ''
+                '',
             ].join('\n')
         )
     })
@@ -123,14 +136,26 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 'first string', param2: 'second string' }
         const output = prettyoutput(input, { colors: { keys: 'blue' } })
 
-        output.should.equal([`${colors.blue('param1: ')}first string`, `${colors.blue('param2: ')}second string`, ''].join('\n'))
+        output.should.equal(
+            [
+                `${colors.blue('param1: ')}first string`,
+                `${colors.blue('param2: ')}second string`,
+                '',
+            ].join('\n')
+        )
     })
 
     it('should allow to configure colors for numbers', () => {
         const input = { param1: 17, param2: 22.3 }
         const output = prettyoutput(input, { colors: { number: 'red' } })
 
-        output.should.equal([colors.green('param1: ') + colors.red('17'), colors.green('param2: ') + colors.red('22.3'), ''].join('\n'))
+        output.should.equal(
+            [
+                colors.green('param1: ') + colors.red('17'),
+                colors.green('param2: ') + colors.red('22.3'),
+                '',
+            ].join('\n')
+        )
     })
 
     it('should allow to configure rainbow as color', () => {
@@ -138,7 +163,11 @@ describe('prettyoutput general tests', () => {
         const output = prettyoutput(input, { colors: { keys: 'rainbow' } })
 
         output.should.equal(
-            [`${colors.rainbow('paramLong: ')}first string`, `${colors.rainbow('param2: ')}   second string`, ''].join('\n')
+            [
+                `${colors.rainbow('paramLong: ')}first string`,
+                `${colors.rainbow('param2: ')}   second string`,
+                '',
+            ].join('\n')
         )
     })
 
@@ -147,7 +176,12 @@ describe('prettyoutput general tests', () => {
         const output = prettyoutput(input, { indentationLength: 4 })
 
         output.should.equal(
-            [colors.green('param: '), `${colors.green('    - ')}first string`, `${colors.green('    - ')}second string`, ''].join('\n')
+            [
+                colors.green('param: '),
+                `${colors.green('    - ')}first string`,
+                `${colors.green('    - ')}second string`,
+                '',
+            ].join('\n')
         )
     })
 
@@ -163,7 +197,11 @@ describe('prettyoutput general tests', () => {
         const output = prettyoutput(input, { colors: { keys: 'blue', string: 'red' } })
 
         output.should.equal(
-            [colors.blue('param1: ') + colors.red('first string'), colors.blue('param2: ') + colors.red('second string'), ''].join('\n')
+            [
+                colors.blue('param1: ') + colors.red('first string'),
+                colors.blue('param2: ') + colors.red('second string'),
+                '',
+            ].join('\n')
         )
     })
 
@@ -171,11 +209,13 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 'first string', param2: ['second string'] }
         const output = prettyoutput(input, { noColor: true })
 
-        output.should.equal(['param1: first string', 'param2: ', '  - second string', ''].join('\n'))
+        output.should.equal(
+            ['param1: first string', 'param2: ', '  - second string', ''].join('\n')
+        )
     })
 
     it('should not print an object prototype', () => {
-        const Input = function() {
+        const Input = function () {
             this.param1 = 'first string'
             this.param2 = 'second string'
         }
@@ -183,14 +223,26 @@ describe('prettyoutput general tests', () => {
 
         const output = prettyoutput(new Input())
 
-        output.should.equal([`${colors.green('param1: ')}first string`, `${colors.green('param2: ')}second string`, ''].join('\n'))
+        output.should.equal(
+            [
+                `${colors.green('param1: ')}first string`,
+                `${colors.green('param2: ')}second string`,
+                '',
+            ].join('\n')
+        )
     })
 
     it('should allow turning off aligning hash key values', () => {
         const input = { veryLargeParam: 'first string', param: 'second string' }
         const output = prettyoutput(input, { alignKeyValues: false })
 
-        output.should.equal([`${colors.green('veryLargeParam: ')}first string`, `${colors.green('param: ')}second string`, ''].join('\n'))
+        output.should.equal(
+            [
+                `${colors.green('veryLargeParam: ')}first string`,
+                `${colors.green('param: ')}second string`,
+                '',
+            ].join('\n')
+        )
     })
 })
 
@@ -246,7 +298,7 @@ describe('Printing numbers, booleans and other objects', () => {
                 colors.green('      - ') + stack[0],
                 colors.green('      - ') + stack[1],
                 `${colors.green('    message: ')}foo`,
-                ''
+                '',
             ].join('\n')
         )
     })
@@ -263,7 +315,7 @@ describe('Printing numbers, booleans and other objects', () => {
                 colors.green('- ') + colors.green('true'),
                 colors.green('- ') + colors.red('false'),
                 colors.green('- ') + dt,
-                ''
+                '',
             ].join('\n')
         )
     })
@@ -282,11 +334,17 @@ describe('Printing numbers, booleans and other objects', () => {
 
         const input = {
             dt1: dt2,
-            dt2: dt2
+            dt2: dt2,
         }
 
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal([colors.green('    dt1: ') + dt1.toString(), colors.green('    dt2: ') + dt2.toString(), ''].join('\n'))
+        output.should.equal(
+            [
+                colors.green('    dt1: ') + dt1.toString(),
+                colors.green('    dt2: ') + dt2.toString(),
+                '',
+            ].join('\n')
+        )
     })
 })

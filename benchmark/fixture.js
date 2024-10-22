@@ -1,4 +1,3 @@
-'use strict'
 const _ = require('lodash')
 
 const internals = {}
@@ -26,7 +25,7 @@ internals.make.error = () => {
     return new Error('An error')
 }
 
-internals.weightedRand = weigths => {
+internals.weightedRand = (weigths) => {
     const entries = _.toPairs(weigths)
 
     let runningSum = 0
@@ -57,17 +56,17 @@ internals.weightedRands = (weigths, count) => {
 }
 
 internals.makeLevelArray = (weights, keysCount) => {
-    let result = []
+    const result = []
 
     const types = internals.weightedRands(weights, keysCount)
-    _.forEach(types, type => {
+    _.forEach(types, (type) => {
         result.push(internals.make[type]())
     })
     return result
 }
 
 internals.makeLevelObject = (weights, keysCount) => {
-    let result = {}
+    const result = {}
 
     const types = internals.weightedRands(weights, keysCount)
     for (let i = 0; i < types.length; i++) {
@@ -87,7 +86,7 @@ internals.makeLevelElements = (weights, keysCount, levelElements) => {
         if (JSON.stringify(currentElement) === '[]') {
             const elementContent = internals.makeLevelArray(weights, keysCount)
 
-            _.forEach(elementContent, element => {
+            _.forEach(elementContent, (element) => {
                 currentElement.push(element)
                 nextLevel.push(element)
             })

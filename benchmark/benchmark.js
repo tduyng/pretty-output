@@ -1,7 +1,4 @@
-'use strict'
-/* eslint-disable no-console */
-
-const util = require('util')
+const util = require('node:util')
 const columnify = require('columnify')
 const _ = require('lodash')
 const prettyjson = require('prettyjson')
@@ -53,7 +50,10 @@ function prettyWeights(weights) {
 function makeBench(weights, levels, keysCount, loopCount) {
     console.log('\n')
 
-    const benchDesc = _.assign({ levels: levels, keys: keysCount, loops: loopCount }, { weigths: prettyWeights(weights) })
+    const benchDesc = _.assign(
+        { levels: levels, keys: keysCount, loops: loopCount },
+        { weigths: prettyWeights(weights) }
+    )
     console.log(columnify([benchDesc], { columnSplitter: ' | ' }), '\n')
 
     const element = fixture.makeElement(weights, levels, keysCount)
@@ -69,19 +69,36 @@ function makeBench(weights, levels, keysCount, loopCount) {
     const result = [
         _.assign({ name: 'prettyoutput' }, stats.prettyStats(prettyOutputStats)),
         _.assign({ name: 'prettyjson' }, stats.prettyStats(prettyJsonStats)),
-        _.assign({ name: 'util.inspect' }, stats.prettyStats(utilInspectStats))
+        _.assign({ name: 'util.inspect' }, stats.prettyStats(utilInspectStats)),
     ]
 
     console.log(columnify(result, { columnSplitter: ' | ' }))
-    console.log('--------------------------------------------------------------------------------------------------------------')
+    console.log(
+        '--------------------------------------------------------------------------------------------------------------'
+    )
 }
 
 const tests = [
-    { loops: 100, levels: 3, keys: 20, weights: { serializable: 0.9, array: 0.3, object: 0.5, multilineString: 0.3, error: 0.2 } },
-    { loops: 100, levels: 4, keys: 20, weights: { serializable: 0.9, array: 0.3, object: 0.5, multilineString: 0.3, error: 0.2 } },
-    { loops: 100, levels: 5, keys: 20, weights: { serializable: 0.9, array: 0.3, object: 0.5, multilineString: 0.3, error: 0.2 } }
+    {
+        loops: 100,
+        levels: 3,
+        keys: 20,
+        weights: { serializable: 0.9, array: 0.3, object: 0.5, multilineString: 0.3, error: 0.2 },
+    },
+    {
+        loops: 100,
+        levels: 4,
+        keys: 20,
+        weights: { serializable: 0.9, array: 0.3, object: 0.5, multilineString: 0.3, error: 0.2 },
+    },
+    {
+        loops: 100,
+        levels: 5,
+        keys: 20,
+        weights: { serializable: 0.9, array: 0.3, object: 0.5, multilineString: 0.3, error: 0.2 },
+    },
 ]
 
-_.forEach(tests, test => {
+_.forEach(tests, (test) => {
     makeBench(test.weights, test.levels, test.keys, test.loops)
 })
