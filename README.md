@@ -5,9 +5,6 @@ It's performance centric to be used as a logger formatter.
 It's currently 3 to 5 times quicker than util.inspect used by many loggers.
 It's available as a NodeJS library or a cli too.
 
-## Credits
-This is based on the great work done on the project [prettyjson](https://github.com/rafeca/prettyjson)
-
 ## How to install
 
 Via NPM:
@@ -178,3 +175,6 @@ $ npm test
 [travis-url]: https://travis-ci.org/keepitcool/prettyoutput
 [coveralls-image]: https://img.shields.io/codecov/c/github/keepitcool/prettyoutput.svg?style=flat-square
 [coveralls-url]: https://codecov.io/github/keepitcool/prettyoutput?branch=master
+
+## Credits
+This is a fork of the great work from the project [pretty-output](https://github.com/keepitcool/prettyoutput)
