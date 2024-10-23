@@ -45,6 +45,7 @@
             "build",
             "coverage",
             "dist",
+            "lib",
             "docs",
             "node_modules",
             "out"

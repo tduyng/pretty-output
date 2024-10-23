@@ -41,25 +41,30 @@
     "scripts": {
         "lint": "biome check --write",
         "check": "biome check",
-        "test": "./node_modules/.bin/mocha --reporter spec",
+        "build": "tsc -p tsconfig.lib.json",
+        "test": "mocha 'tests/**/*.[tj]s' --reporter spec",
         "coverage": "nyc npm run test",
         "benchmark": "node ./benchmark/benchmark.js",
         "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent"
     },
     "bin": {
-        "pretty-output": "./bin/pretty-output"
+        "prettyoutput": "./bin/pretty_output"
     },
     "dependencies": {
-        "colors": "1.x",
         "commander": "12.x"
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
+        "@types/mocha": "^10.0.9",
+        "@types/node": "^22.7.9",
+        "@types/should": "^13.0.0",
         "columnify": "^1.6.0",
         "mocha": "^10.7.3",
         "nyc": "^17.1.0",
         "prettyjson": "^1.2.5",
-        "should": "^13.2.3"
+        "should": "^13.2.3",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
     },
     "packageManager": "yarn@4.5.1"
 }

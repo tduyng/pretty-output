@@ -1,4 +1,4 @@
-const prettyoutput = require('../lib/prettyoutput')
+import { prettyoutput } from '../src/index'
 
 const data = {
     username: 'kic',

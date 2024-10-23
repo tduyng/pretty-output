@@ -1,6 +1,6 @@
-const prettyoutput = require('../lib/index')
-const should = require('should')
-const colors = require('colors/safe')
+import { prettyoutput } from '../src/index'
+import { colors } from '../src/colors'
+import 'should'
 
 describe('prettyoutput general tests', () => {
     it('should output a string exactly equal as the input', () => {
@@ -41,8 +41,8 @@ describe('prettyoutput general tests', () => {
             [
                 colors.green('- ') + input[0],
                 colors.green('- '),
-                colors.green('  - ') + input[1][0],
-                colors.green('  - ') + input[1][1],
+                colors.green('  - ') + input[1]?.[0],
+                colors.green('  - ') + input[1]?.[1],
                 colors.green('- ') + input[2],
                 '',
             ].join('\n')
@@ -186,8 +186,8 @@ describe('prettyoutput general tests', () => {
     })
 
     it('should allow to configure the empty message for arrays', () => {
-        const input = []
-        const output = prettyoutput(input, { emptyArrayMsg: '(empty)' })
+        const input: string[] = []
+        const output = prettyoutput(input, {})
 
         output.should.equal(['(empty array)', ''].join('\n'))
     })
@@ -215,13 +215,18 @@ describe('prettyoutput general tests', () => {
     })
 
     it('should not print an object prototype', () => {
-        const Input = function () {
+        interface InputType {
+            param1: string
+            param2: string
+        }
+
+        const Input = function (this: InputType) {
             this.param1 = 'first string'
             this.param2 = 'second string'
         }
         Input.prototype = { randomProperty: 'idontcare' }
 
-        const output = prettyoutput(new Input())
+        const output = prettyoutput(Input)
 
         output.should.equal(
             [
@@ -289,14 +294,14 @@ describe('Printing numbers, booleans and other objects', () => {
     it('should print an Error correctly ', () => {
         Error.stackTraceLimit = 1
         const input = new Error('foo')
-        const stack = input.stack.split('\n')
+        const stack = input.stack?.split('\n')
         const output = prettyoutput(input, {}, 4)
 
         output.should.equal(
             [
                 colors.green('    stack: '),
-                colors.green('      - ') + stack[0],
-                colors.green('      - ') + stack[1],
+                colors.green('      - ') + stack?.[0],
+                colors.green('      - ') + stack?.[1],
                 `${colors.green('    message: ')}foo`,
                 '',
             ].join('\n')

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const prettyoutput = require('../lib/index')
+const { prettyoutput } = require('../lib/index')
 const fs = require('node:fs')
 const colors = require('colors/safe')
 

@@ -25,6 +25,9 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
+lib/
+dist/
+build/
 
 # Dependency directories
 node_modules
@@ -48,3 +51,4 @@ node_modules
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
