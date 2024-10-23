@@ -14,7 +14,7 @@ export const getColor = (input: unknown, color?: InputColor): Color | undefined 
         string: color.string,
         boolean: input ? color.true : color.false,
         number: color.number,
-        null: color.null,
+        object: input === null ? color.null : undefined,
         undefined: color.undefined,
     }
 
@@ -25,14 +25,14 @@ export const indentString = (input: string, options: RenderOptions) =>
     `${options.indentation}${input}`
 
 export const renderSerializable = (
-    input: string,
+    input: unknown,
     options: RenderOptions,
     indentation: string
 ): string => {
     if (Array.isArray(input)) return `${indentation}(empty array)\n`
 
     const color = getColor(input, options.colors)
-    return `${indentation}${colorString(input, color)}\n`
+    return `${indentation}${colorString(String(input), color)}\n`
 }
 
 export const renderMultilineString = (

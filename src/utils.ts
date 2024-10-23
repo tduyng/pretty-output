@@ -42,7 +42,7 @@ export const repeat = (string: string, count: number) => string.repeat(Math.max(
  * @return {boolean}
  */
 export const isSerializable = (input: unknown): boolean => {
-    if (input == null) return true
+    if (input === null || input === undefined) return true
     if (typeof input === 'boolean' || typeof input === 'number' || input instanceof Date)
         return true
     if (typeof input === 'string') return isSingleLineString(input)

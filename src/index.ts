@@ -31,6 +31,7 @@ const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
         true: optsColors.true || 'green',
         false: optsColors.false || 'red',
         null: optsColors.null || 'grey',
+        undefined: optsColors.undefined || 'grey',
     }
 
     return {
@@ -58,7 +59,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
         } else if (depth > options.maxDepth) {
             output += renderMaxDepth(indentation)
         } else if (isSerializable(input)) {
-            output += renderSerializable(String(input), options, indentation)
+            output += renderSerializable(input, options, indentation)
         } else if (typeof input === 'string') {
             output += renderMultilineString(input, options, indentation)
         } else if (Array.isArray(input)) {

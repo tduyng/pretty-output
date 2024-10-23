@@ -215,18 +215,20 @@ describe('prettyoutput general tests', () => {
     })
 
     it('should not print an object prototype', () => {
-        interface InputType {
+        class Input {
             param1: string
             param2: string
+            randomProperty: string | undefined
+
+            constructor() {
+                this.param1 = 'first string'
+                this.param2 = 'second string'
+            }
         }
 
-        const Input = function (this: InputType) {
-            this.param1 = 'first string'
-            this.param2 = 'second string'
-        }
-        Input.prototype = { randomProperty: 'idontcare' }
+        Input.prototype.randomProperty = 'irrelevant'
 
-        const output = prettyoutput(Input)
+        const output = prettyoutput(new Input())
 
         output.should.equal(
             [
