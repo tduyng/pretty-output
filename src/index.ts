@@ -1,4 +1,4 @@
-import type { InputColor, RenderOptions, Stack } from './definitions'
+import type { RenderOptions, Stack } from './definitions'
 import {
     indentString,
     renderDash,
@@ -14,26 +14,31 @@ import {
 } from './renderer'
 import { indent, isSerializable, maxLength } from './utils'
 
-export const defaultInputColor: InputColor = {
-    keys: 'green',
-    dash: 'green',
-    number: 'blue',
-    true: 'green',
-    false: 'red',
-    null: 'grey',
-    undefined: 'grey',
-}
+const defaultStack = (input: string): Stack => ({
+    input,
+    noRender: true,
+    indentation: '',
+    depth: 0,
+})
 
-const defaultIndentation = ''
 const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
-    const color = opts.colors || defaultInputColor
+    const optsColors = opts.colors || {}
+    const color = {
+        keys: optsColors.keys || 'green',
+        dash: optsColors.dash || 'green',
+        number: optsColors.number || 'blue',
+        string: optsColors.string,
+        true: optsColors.true || 'green',
+        false: optsColors.false || 'red',
+        null: optsColors.null || 'grey',
+    }
 
     return {
         indentation: indent(opts.indentationLength || 2),
         maxDepth: opts.maxDepth ?? 3,
         colors: !opts.noColor ? color : undefined,
-        alignKeyValues: Boolean(opts.alignKeyValues) === true,
-        hideUndefined: Boolean(opts.hideUndefined) === true,
+        alignKeyValues: opts.alignKeyValues !== false,
+        hideUndefined: opts.hideUndefined ?? false,
     }
 }
 
@@ -62,23 +67,13 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
 
                 if (isSerializable(value)) {
                     const result = renderSerializableArrayValue(String(value), options, indentation)
-                    stack.push({
-                        input: result,
-                        noRender: true,
-                        indentation: defaultIndentation,
-                        depth: 0,
-                    })
+                    stack.push(defaultStack(result))
                     continue
                 }
 
                 if (depth + 1 > options.maxDepth) {
                     const result = renderMaxDepthArrayValue(options, indentation)
-                    stack.push({
-                        input: result,
-                        noRender: true,
-                        indentation: defaultIndentation,
-                        depth: 0,
-                    })
+                    stack.push(defaultStack(result))
                     continue
                 }
 
@@ -88,12 +83,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                     depth: depth + 1,
                 })
                 const dash = renderDash(options, indentation)
-                stack.push({
-                    input: `${dash}\n`,
-                    noRender: true,
-                    indentation: defaultIndentation,
-                    depth: 0,
-                })
+                stack.push(defaultStack(`${dash}\n`))
             }
         } else if (typeof input === 'object' && input !== null) {
             const keys = Object.getOwnPropertyNames(input)
@@ -111,12 +101,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                         options,
                         indentation
                     )
-                    stack.push({
-                        input: result,
-                        noRender: true,
-                        indentation: defaultIndentation,
-                        depth: 0,
-                    })
+                    stack.push(defaultStack(result))
                     continue
                 }
 
@@ -128,24 +113,13 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                         options,
                         indentation
                     )
-                    if (result !== undefined)
-                        stack.push({
-                            input: result,
-                            noRender: true,
-                            indentation: defaultIndentation,
-                            depth: 0,
-                        })
+                    if (result !== undefined) stack.push(defaultStack(result))
                     continue
                 }
 
                 if (depth + 1 > options.maxDepth) {
                     const result = renderMaxDepthObjectValue(key, valueColumn, options, indentation)
-                    stack.push({
-                        input: result,
-                        noRender: true,
-                        indentation: defaultIndentation,
-                        depth: 0,
-                    })
+                    stack.push(defaultStack(result))
                     continue
                 }
 
@@ -155,12 +129,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                     indentation: indentString(indentation, options),
                 })
                 const renderedKey = renderObjectKey(key, options, indentation)
-                stack.push({
-                    input: `${renderedKey}\n`,
-                    noRender: true,
-                    indentation: defaultIndentation,
-                    depth: 0,
-                })
+                stack.push(defaultStack(`${renderedKey}\n`))
             }
         }
     }
