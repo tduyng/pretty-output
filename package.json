@@ -45,7 +45,8 @@
         "test": "mocha 'tests/**/*.[tj]s' --reporter spec",
         "coverage": "nyc npm run test",
         "benchmark": "node ./benchmark/benchmark.js",
-        "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent"
+        "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent",
+        "examples": "tsx ./examples/example.ts"
     },
     "bin": {
         "prettyoutput": "./bin/pretty_output"
@@ -63,7 +64,7 @@
         "nyc": "^17.1.0",
         "prettyjson": "^1.2.5",
         "should": "^13.2.3",
-        "ts-node": "^10.9.2",
+        "tsx": "^4.19.1",
         "typescript": "^5.6.3"
     },
     "packageManager": "yarn@4.5.1"

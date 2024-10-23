@@ -32,8 +32,8 @@ const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
         indentation: indent(opts.indentationLength || 2),
         maxDepth: opts.maxDepth ?? 3,
         colors: !opts.noColor ? color : undefined,
-        alignKeyValues: opts.alignKeyValues !== false,
-        hideUndefined: opts.hideUndefined ?? false,
+        alignKeyValues: Boolean(opts.alignKeyValues) === true,
+        hideUndefined: Boolean(opts.hideUndefined) === true,
     }
 }
 
