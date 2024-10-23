@@ -67,7 +67,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                 const value = input[i]
 
                 if (isSerializable(value)) {
-                    const result = renderSerializableArrayValue(String(value), options, indentation)
+                    const result = renderSerializableArrayValue(value, options, indentation)
                     stack.push(defaultStack(result))
                     continue
                 }
