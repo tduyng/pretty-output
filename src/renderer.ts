@@ -1,5 +1,5 @@
 import type { Color, InputColor, RenderOptions } from './definitions'
-import { alignString, colorString, indent, repeat } from './utils'
+import { alignString, colorString, repeat } from './utils'
 
 /**
  * Get color of an input
@@ -41,7 +41,7 @@ export const renderMultilineString = (
     indentation: string
 ): string => {
     const color = getColor(input, options.colors)
-    const indentedString = alignString(input, indent(indentation.length))
+    const indentedString = alignString(input, indentString(indentation, options))
     const output = `${indentation}"""\n${indentedString}\n${indentation}"""\n`
     return colorString(output, color)
 }
@@ -129,7 +129,7 @@ export const renderObjectErrorStack = (
     indentation: string
 ): string => {
     const renderedKey = renderObjectKey(key, options, indentation)
-    const stackIndentation = indent(indentation.length)
+    const stackIndentation = indentString(indentation, options)
     const renderedStack = renderErrorStack(stack, options, stackIndentation)
     return `${renderedKey}\n${renderedStack}\n`
 }

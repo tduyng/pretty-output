@@ -1,5 +1,6 @@
-import type { InputColor, RenderOptions } from './definitions'
+import type { InputColor, RenderOptions, Stack } from './definitions'
 import {
+    indentString,
     renderDash,
     renderMaxDepth,
     renderMaxDepthArrayValue,
@@ -23,15 +24,12 @@ export const defaultInputColor: InputColor = {
     undefined: 'grey',
 }
 
-const defaultIndentation = indent(2)
-
+const defaultIndentation = ''
 const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
     const color = opts.colors || defaultInputColor
 
-    const indentationLength = opts.indentationLength || 2
-
     return {
-        indentation: indent(indentationLength),
+        indentation: indent(opts.indentationLength || 2),
         maxDepth: opts.maxDepth ?? 3,
         colors: !opts.noColor ? color : undefined,
         alignKeyValues: opts.alignKeyValues !== false,
@@ -41,12 +39,7 @@ const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
 
 const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel = 0): string => {
     const options = parseOptions(opts)
-    const stack: Array<{
-        indentation: string
-        depth: number
-        input: unknown
-        noRender?: boolean
-    }> = [{ indentation: indent(indentLevel), depth: 0, input }]
+    const stack: Stack[] = [{ indentation: indent(indentLevel), depth: 0, input }]
 
     let output = ''
 
@@ -91,7 +84,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
 
                 stack.push({
                     input: value,
-                    indentation: indent(indentation.length),
+                    indentation: indentString(indentation, options),
                     depth: depth + 1,
                 })
                 const dash = renderDash(options, indentation)
@@ -159,7 +152,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                 stack.push({
                     input: value,
                     depth: depth + 1,
-                    indentation: indent(indentation.length),
+                    indentation: indentString(indentation, options),
                 })
                 const renderedKey = renderObjectKey(key, options, indentation)
                 stack.push({

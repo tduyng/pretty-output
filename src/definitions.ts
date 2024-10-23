@@ -36,3 +36,10 @@ export type RenderOptions = {
     alignKeyValues?: boolean // Align key values (optional, default: true)
     hideUndefined?: boolean // Show undefined values (optional, default: false)
 }
+
+export type Stack = {
+    indentation: string
+    depth: number
+    input: unknown
+    noRender?: boolean
+}
