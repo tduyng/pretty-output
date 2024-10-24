@@ -88,6 +88,7 @@
         "@types/prettyjson": "^0.0.33",
         "c8": "^10.1.2",
         "columnify": "^1.6.0",
+        "conventional-changelog-cli": "^5.0.0",
         "mocha": "^10.7.3",
         "prettyjson": "^1.2.5",
         "tsx": "^4.19.1",
