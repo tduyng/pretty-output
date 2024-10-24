@@ -67,6 +67,9 @@
         "pretty": "./bin/pretty_output.js",
         "pretty-cjs": "./bin/pretty_output.cjs",
         "pretty-esm": "./bin/pretty_output.js",
+        "prettyOutput": "./bin/pretty_output.js",
+        "prettyOutput-cjs": "./bin/pretty_output.cjs",
+        "prettyOutput-esm": "./bin/pretty_output.js",
         "prettyoutput": "./bin/pretty_output.js",
         "prettyoutput-cjs": "./bin/pretty_output.cjs",
         "prettyoutput-esm": "./bin/pretty_output.js"
