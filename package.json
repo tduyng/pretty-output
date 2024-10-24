@@ -37,7 +37,10 @@
         "url": "http://github.com/tduyng/pretty-output/issues"
     },
     "type": "module",
-    "files": ["/lib", "/bin"],
+    "files": [
+        "/lib",
+        "/bin"
+    ],
     "main": "lib/esm/index.js",
     "types": "lib/esm/index.d.ts",
     "exports": {
