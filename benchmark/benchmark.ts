@@ -2,7 +2,7 @@ import util from 'node:util'
 import columnify from 'columnify'
 import prettyjson from 'prettyjson'
 
-import prettyoutput from '../src/index.js'
+import { prettyOutput } from '../src/index.js'
 import { makeElement } from './fixture.js'
 import { prettyStats, stats } from './stats.js'
 
@@ -31,7 +31,7 @@ function runFunction(loopCount: number, fn: () => void): number[] {
 
 function runPrettyOutput(element: unknown, loopCount: number): number[] {
     return runFunction(loopCount, () => {
-        prettyoutput(element, { noColor: true, maxDepth: 100 })
+        prettyOutput(element, { noColor: true, maxDepth: 100 })
     })
 }
 

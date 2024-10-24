@@ -46,8 +46,7 @@ const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
 const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel = 0): string => {
     const options = parseOptions(opts)
     const stack: Stack[] = [{ indentation: indent(indentLevel), depth: 0, input }]
-
-    let output = ''
+    const outputs: string[] = []
 
     while (stack.length > 0) {
         const item = stack.pop()
@@ -55,26 +54,26 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
         const { indentation, depth, input, noRender } = item
 
         if (noRender) {
-            output += input as string
+            outputs.push(input as string)
         } else if (depth > options.maxDepth) {
-            output += renderMaxDepth(indentation)
+            outputs.push(renderMaxDepth(indentation))
         } else if (isSerializable(input)) {
-            output += renderSerializable(input, options, indentation)
+            outputs.push(renderSerializable(input, options, indentation))
         } else if (typeof input === 'string') {
-            output += renderMultilineString(input, options, indentation)
+            outputs.push(renderMultilineString(input, options, indentation))
         } else if (Array.isArray(input)) {
             for (let i = input.length - 1; i >= 0; i--) {
                 const value = input[i]
 
                 if (isSerializable(value)) {
-                    const result = renderSerializableArrayValue(value, options, indentation)
-                    stack.push(defaultStack(result))
+                    stack.push(
+                        defaultStack(renderSerializableArrayValue(value, options, indentation))
+                    )
                     continue
                 }
 
                 if (depth + 1 > options.maxDepth) {
-                    const result = renderMaxDepthArrayValue(options, indentation)
-                    stack.push(defaultStack(result))
+                    stack.push(defaultStack(renderMaxDepthArrayValue(options, indentation)))
                     continue
                 }
 
@@ -83,8 +82,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                     indentation: indentString(indentation, options),
                     depth: depth + 1,
                 })
-                const dash = renderDash(options, indentation)
-                stack.push(defaultStack(`${dash}\n`))
+                stack.push(defaultStack(`${renderDash(options, indentation)}\n`))
             }
         } else if (typeof input === 'object' && input !== null) {
             const keys = Object.getOwnPropertyNames(input)
@@ -96,13 +94,11 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                 const value = (input as Record<string, unknown>)[key]
 
                 if (input instanceof Error && key === 'stack') {
-                    const result = renderObjectErrorStack(
-                        key,
-                        value as string,
-                        options,
-                        indentation
+                    stack.push(
+                        defaultStack(
+                            renderObjectErrorStack(key, value as string, options, indentation)
+                        )
                     )
-                    stack.push(defaultStack(result))
                     continue
                 }
 
@@ -119,8 +115,11 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                 }
 
                 if (depth + 1 > options.maxDepth) {
-                    const result = renderMaxDepthObjectValue(key, valueColumn, options, indentation)
-                    stack.push(defaultStack(result))
+                    stack.push(
+                        defaultStack(
+                            renderMaxDepthObjectValue(key, valueColumn, options, indentation)
+                        )
+                    )
                     continue
                 }
 
@@ -129,13 +128,12 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                     depth: depth + 1,
                     indentation: indentString(indentation, options),
                 })
-                const renderedKey = renderObjectKey(key, options, indentation)
-                stack.push(defaultStack(`${renderedKey}\n`))
+                stack.push(defaultStack(`${renderObjectKey(key, options, indentation)}\n`))
             }
         }
     }
 
-    return output
+    return outputs.join('')
 }
 
 export default prettyOutput

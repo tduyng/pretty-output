@@ -10,20 +10,28 @@ import { alignString, colorString, repeat } from './utils.js'
 export const getColor = (input: unknown, color?: InputColor): Color | undefined => {
     if (!color) return undefined
 
-    const colorMap: Record<string, Color | undefined> = {
-        string: color.string,
-        boolean: input ? color.true : color.false,
-        number: color.number,
-        object: input === null ? color.null : undefined,
-        undefined: color.undefined,
+    switch (typeof input) {
+        case 'string':
+            return color.string
+        case 'boolean':
+            return input ? color.true : color.false
+        case 'number':
+            return color.number
+        case 'object':
+            return input === null ? color.null : undefined
+        case 'undefined':
+            return color.undefined
+        default:
+            return undefined
     }
-
-    return colorMap[typeof input] || undefined
 }
 
 export const indentString = (input: string, options: RenderOptions) =>
     `${options.indentation}${input}`
 
+/**
+ * Handling serialization of different input types.
+ */
 export const renderSerializable = (
     input: unknown,
     options: RenderOptions,
@@ -46,24 +54,17 @@ export const renderMultilineString = (
     return colorString(output, color)
 }
 
-export const renderDash = (options: RenderOptions, indentation: string): string => {
-    const dashColor = options.colors?.dash
-    const output = `${indentation}- `
-    return colorString(output, dashColor)
-}
+export const renderDash = (options: RenderOptions, indentation: string): string =>
+    colorString(`${indentation}- `, options.colors?.dash)
 
 export const renderMaxDepth = (indentation: string): string => `${indentation}(max depth reached)\n`
 
-export const renderObjectKey = (
-    key: string,
-    options: RenderOptions,
-    indentation: string
-): string => {
-    const keyColor = options.colors?.keys
-    const output = `${indentation}${key}: `
-    return colorString(output, keyColor)
-}
+export const renderObjectKey = (key: string, options: RenderOptions, indentation: string): string =>
+    colorString(`${indentation}${key}: `, options.colors?.keys)
 
+/**
+ * Renders the value in a key-value pair for serializable objects.
+ */
 export const renderSerializableObjectValue = (
     key: string,
     value: unknown,
@@ -72,56 +73,52 @@ export const renderSerializableObjectValue = (
     indentation: string
 ): string | undefined => {
     if (value === undefined && options.hideUndefined) return undefined
-    const renderedKey = renderObjectKey(key, options, indentation)
     const alignSpaces = repeat(' ', valueColumn - key.length)
-    const renderedValue = renderSerializable(value as string, options, alignSpaces)
-
-    return `${renderedKey}${renderedValue}`
+    return `${renderObjectKey(key, options, indentation)}${renderSerializable(value, options, alignSpaces)}`
 }
 
+/**
+ * Handles rendering when max depth is reached for objects.
+ */
 export const renderMaxDepthObjectValue = (
     key: string,
     valueColumn: number,
     options: RenderOptions,
     indentation: string
 ): string => {
-    const renderedKey = renderObjectKey(key, options, indentation)
     const alignSpaces = repeat(' ', valueColumn - key.length)
-    const renderedValue = renderMaxDepth(alignSpaces)
-
-    return `${renderedKey}${renderedValue}`
+    return `${renderObjectKey(key, options, indentation)}${renderMaxDepth(alignSpaces)}`
 }
 
 export const renderSerializableArrayValue = (
     value: string,
     options: RenderOptions,
     indentation: string
-): string => {
-    const renderedDash = renderDash(options, indentation)
-    const renderedValue = renderSerializable(value, options, '')
+): string => `${renderDash(options, indentation)}${renderSerializable(value, options, '')}`
 
-    return `${renderedDash}${renderedValue}`
-}
+/**
+ * Handles rendering when max depth is reached for arrays.
+ */
+export const renderMaxDepthArrayValue = (options: RenderOptions, indentation: string): string =>
+    `${renderDash(options, indentation)}${renderMaxDepth('')}`
 
-export const renderMaxDepthArrayValue = (options: RenderOptions, indentation: string): string => {
-    const renderedDash = renderDash(options, indentation)
-    const renderedValue = renderMaxDepth('')
-
-    return `${renderedDash}${renderedValue}`
-}
-
+/**
+ * Renders error stack trace.
+ */
 export const renderErrorStack = (
     stack: string,
     options: RenderOptions,
     indentation: string
 ): string => {
     const color = getColor(stack, options.colors)
-    const indentedDash = renderDash(options, indentation)
-    const indentedStack = alignString(stack, indentedDash)
+    const indentedStack = alignString(stack, renderDash(options, indentation))
 
     return colorString(indentedStack, color)
 }
 
+/**
+ * Renders object key and stack trace for error objects.
+ */
 export const renderObjectErrorStack = (
     key: string,
     stack: string,
