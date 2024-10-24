@@ -64,7 +64,8 @@
         "coverage": "c8 -r=cobertura -r=lcov -r=text-summary npm run test",
         "benchmark": "tsx ./benchmark/benchmark.js",
         "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent",
-        "examples": "tsx ./examples/example.ts"
+        "examples": "tsx ./examples/example.ts",
+        "postinstall": "git config core.hooksPath ./.githooks || true"
     },
     "bin": {
         "pretty": "./bin/pretty_output.js",
@@ -88,6 +89,7 @@
         "@types/prettyjson": "^0.0.33",
         "c8": "^10.1.2",
         "columnify": "^1.6.0",
+        "commitlint": "^19.5.0",
         "conventional-changelog-cli": "^5.0.0",
         "mocha": "^10.7.3",
         "prettyjson": "^1.2.5",

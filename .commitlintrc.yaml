@@ -1,0 +1,17 @@
+rules:
+  # Rule for allowed commit types
+  type-enum:
+    - 2 # Error level: 2 (must be followed)
+    - always # Applies the rule always
+    - [ 'feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'build', 'ci', 'chore', 'revert' ] # Allowed types
+
+  # Rule to disallow empty commit subjects
+  subject-empty:
+    - 2 # Error level: 2 (must be followed)
+    - never # The subject must not be empty
+
+  # Rule to enforce a maximum subject length of 80 characters
+  subject-max-length:
+    - 2 # Error level: 2 (must be followed)
+    - always # Applies the rule always
+    - 80 # Maximum length of the subject
