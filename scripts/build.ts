@@ -8,12 +8,14 @@ const execAsync = promisify(exec)
 
 async function run() {
     try {
-        await execAsync('rm -rf lib')
-        await execAsync('npx tsc -p tsconfig.lib.json --module NodeNext --outDir lib/esm')
-        await writeFile('lib/esm/package.json', '{"type": "module"}')
-
-        await execAsync('npx tsc -p tsconfig.lib.json --module CommonJS --outDir lib/cjs')
-        await writeFile('lib/cjs/package.json', '{"type": "commonjs"}')
+        await Promise.all([
+            execAsync('yarn tsc -p tsconfig.lib.json --module ESNext --outDir lib/esm'),
+            execAsync('yarn tsc -p tsconfig.lib.json --module CommonJS --outDir lib/cjs'),
+        ])
+        await Promise.all([
+            writeFile('lib/esm/package.json', '{"type": "module"}'),
+            writeFile('lib/cjs/package.json', '{"type": "commonjs"}'),
+        ])
 
         console.log(colors.green('Compilation successful'))
     } catch (error) {
