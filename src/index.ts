@@ -72,81 +72,97 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
         }
 
         if (Array.isArray(input)) {
-            for (let i = input.length - 1; i >= 0; i--) {
-                const value = input[i]
-
-                if (isSerializable(value)) {
-                    stack.push(
-                        defaultStack(renderSerializableArrayValue(value, options, indentation))
-                    )
-                    continue
-                }
-
-                if (depth + 1 > options.maxDepth) {
-                    stack.push(defaultStack(renderMaxDepthArrayValue(options, indentation)))
-                    continue
-                }
-
-                stack.push({
-                    input: value,
-                    indentation: indentString(indentation, options),
-                    depth: depth + 1,
-                })
-                stack.push(defaultStack(`${renderDash(options, indentation)}\n`))
-            }
+            handleArrayRendering(input, options, stack, indentation, depth)
             continue
         }
 
         if (typeof input === 'object' && input !== null) {
-            const keys = Object.getOwnPropertyNames(input)
-            const valueColumn = options.alignKeyValues ? maxLength(keys) : 0
-
-            for (let i = keys.length - 1; i >= 0; i--) {
-                const key = keys[i]
-                if (!key) continue
-                const value = (input as Record<string, unknown>)[key]
-
-                if (input instanceof Error && key === 'stack') {
-                    stack.push(
-                        defaultStack(
-                            renderObjectErrorStack(key, value as string, options, indentation)
-                        )
-                    )
-                    continue
-                }
-
-                if (isSerializable(value)) {
-                    const result = renderSerializableObjectValue(
-                        key,
-                        value,
-                        valueColumn,
-                        options,
-                        indentation
-                    )
-                    if (result !== undefined) stack.push(defaultStack(result))
-                    continue
-                }
-
-                if (depth + 1 > options.maxDepth) {
-                    stack.push(
-                        defaultStack(
-                            renderMaxDepthObjectValue(key, valueColumn, options, indentation)
-                        )
-                    )
-                    continue
-                }
-
-                stack.push({
-                    input: value,
-                    depth: depth + 1,
-                    indentation: indentString(indentation, options),
-                })
-                stack.push(defaultStack(`${renderObjectKey(key, options, indentation)}\n`))
-            }
+            handleObjectRendering(input, options, stack, indentation, depth)
         }
     }
 
     return output
+}
+
+const handleArrayRendering = (
+    input: unknown[],
+    options: RenderOptions,
+    stack: Stack[],
+    indentation: string,
+    depth: number
+) => {
+    for (let i = input.length - 1; i >= 0; i--) {
+        const value = input[i]
+
+        if (isSerializable(value)) {
+            stack.push(
+                defaultStack(renderSerializableArrayValue(value as string, options, indentation))
+            )
+            continue
+        }
+
+        if (depth + 1 > options.maxDepth) {
+            stack.push(defaultStack(renderMaxDepthArrayValue(options, indentation)))
+            continue
+        }
+
+        stack.push({
+            input: value,
+            indentation: indentString(indentation, options),
+            depth: depth + 1,
+        })
+        stack.push(defaultStack(`${renderDash(options, indentation)}\n`))
+    }
+}
+
+const handleObjectRendering = (
+    input: unknown,
+    options: RenderOptions,
+    stack: Stack[],
+    indentation: string,
+    depth: number
+) => {
+    const keys = Object.getOwnPropertyNames(input)
+    const valueColumn = options.alignKeyValues ? maxLength(keys) : 0
+
+    for (let i = keys.length - 1; i >= 0; i--) {
+        const key = keys[i]
+        if (!key) continue
+        const value = (input as Record<string, unknown>)[key]
+
+        if (input instanceof Error && key === 'stack') {
+            stack.push(
+                defaultStack(renderObjectErrorStack(key, value as string, options, indentation))
+            )
+            continue
+        }
+
+        if (isSerializable(value)) {
+            const result = renderSerializableObjectValue(
+                key,
+                value,
+                valueColumn,
+                options,
+                indentation
+            )
+            if (result !== undefined) stack.push(defaultStack(result))
+            continue
+        }
+
+        if (depth + 1 > options.maxDepth) {
+            stack.push(
+                defaultStack(renderMaxDepthObjectValue(key, valueColumn, options, indentation))
+            )
+            continue
+        }
+
+        stack.push({
+            input: value,
+            depth: depth + 1,
+            indentation: indentString(indentation, options),
+        })
+        stack.push(defaultStack(`${renderObjectKey(key, options, indentation)}\n`))
+    }
 }
 
 export default prettyOutput
