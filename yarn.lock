@@ -527,6 +527,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@itunedy/prettyoutput@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@itunedy/prettyoutput@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:1.9.4"
+    "@poppinss/dumper": "npm:^0.4.2"
+    "@types/columnify": "npm:^1.5.4"
+    "@types/mocha": "npm:^10.0.9"
+    "@types/node": "npm:^22.7.9"
+    "@types/prettyjson": "npm:^0.0.33"
+    c8: "npm:^10.1.2"
+    columnify: "npm:^1.6.0"
+    commander: "npm:12.x"
+    commitlint: "npm:^19.5.0"
+    conventional-changelog-cli: "npm:^5.0.0"
+    mocha: "npm:^10.7.3"
+    prettyjson: "npm:^1.2.5"
+    tsx: "npm:^4.19.1"
+    typescript: "npm:^5.6.3"
+  bin:
+    pretty: ./bin/pretty_output.js
+    pretty-cjs: ./bin/pretty_output.cjs
+    pretty-esm: ./bin/pretty_output.js
+    prettyOutput: ./bin/pretty_output.js
+    prettyOutput-cjs: ./bin/pretty_output.cjs
+    prettyOutput-esm: ./bin/pretty_output.js
+    prettyoutput: ./bin/pretty_output.js
+    prettyoutput-cjs: ./bin/pretty_output.cjs
+    prettyoutput-esm: ./bin/pretty_output.js
+  languageName: unknown
+  linkType: soft
+
 "@jridgewell/resolve-uri@npm:^3.1.0":
   version: 3.1.2
   resolution: "@jridgewell/resolve-uri@npm:3.1.2"
@@ -2597,38 +2629,6 @@ __metadata:
   checksum: 10/60c2595003b05e4535394d1da94850f5372c9427ca4413b71210f437f7b2ca091dbd611c45e8b37d10036fa8eade25c1b8951654f9d3973bfa66a2ff4d3b08bc
   languageName: node
   linkType: hard
-
-"pretty-output@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "pretty-output@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:1.9.4"
-    "@poppinss/dumper": "npm:^0.4.2"
-    "@types/columnify": "npm:^1.5.4"
-    "@types/mocha": "npm:^10.0.9"
-    "@types/node": "npm:^22.7.9"
-    "@types/prettyjson": "npm:^0.0.33"
-    c8: "npm:^10.1.2"
-    columnify: "npm:^1.6.0"
-    commander: "npm:12.x"
-    commitlint: "npm:^19.5.0"
-    conventional-changelog-cli: "npm:^5.0.0"
-    mocha: "npm:^10.7.3"
-    prettyjson: "npm:^1.2.5"
-    tsx: "npm:^4.19.1"
-    typescript: "npm:^5.6.3"
-  bin:
-    pretty: ./bin/pretty_output.js
-    pretty-cjs: ./bin/pretty_output.cjs
-    pretty-esm: ./bin/pretty_output.js
-    prettyOutput: ./bin/pretty_output.js
-    prettyOutput-cjs: ./bin/pretty_output.cjs
-    prettyOutput-esm: ./bin/pretty_output.js
-    prettyoutput: ./bin/pretty_output.js
-    prettyoutput-cjs: ./bin/pretty_output.cjs
-    prettyoutput-esm: ./bin/pretty_output.js
-  languageName: unknown
-  linkType: soft
 
 "prettyjson@npm:^1.2.5":
   version: 1.2.5

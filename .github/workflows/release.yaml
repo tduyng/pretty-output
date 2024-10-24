@@ -8,14 +8,19 @@ on:
         default: "patch"
         required: false
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Bump version
         run: yarn version ${{ github.event.inputs.strategy }}

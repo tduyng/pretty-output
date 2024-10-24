@@ -1,6 +1,6 @@
 {
     "author": "Nadim <nadim.boustani@gmail.com> (https://github.com/bnadim)",
-    "name": "pretty-output",
+    "name": "@itunedy/prettyoutput",
     "description": "Library to format JSON objects into a colorful, YAML-style output. Ideal for pretty printing logs with high performance.",
     "version": "1.2.0",
     "homepage": "http://github.com/tduyng/pretty-output",
