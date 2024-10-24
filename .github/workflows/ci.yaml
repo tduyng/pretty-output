@@ -30,11 +30,19 @@ jobs:
         run: yarn coverage
         env:
           CI: true
-      - name: Print environment variables
-        run: env
+          
+      - name: Build the project
+        run: yarn build
 
       - name: Upload coverage to Coveralls
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: node-${{ matrix.node-version }}
+
+      - name: Upload built artifacts
+        if: matrix.node-version == '22.x'
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-artifacts
+          path: lib/**

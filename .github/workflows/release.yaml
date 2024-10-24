@@ -22,6 +22,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download built artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: built-artifacts
+
       - name: Bump version
         run: yarn version ${{ github.event.inputs.strategy }}
 
@@ -56,12 +67,6 @@ jobs:
           body: ${{ steps.changelog.outputs.body }}
           tag_name: v${{ steps.package-version.outputs.current-version }}
           name: v${{ steps.package-version.outputs.current-version }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.x'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to NPM
         run: npm publish --access public
