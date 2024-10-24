@@ -9,7 +9,7 @@ pretty-output is a fast, customizable library for formatting JavaScript/JSON obj
 
 ## Features
 
-- **High Performance**: Optimized to be 2-5 times faster and more beautiful than `util.inspect`, making it ideal for real-time logging.
+- **High Performance**: Optimized to be 1.x-3.x times faster and more beautiful than `util.inspect`, making it ideal for real-time logging.
 - **Customizable**: Configure indentation, color schemes, depth limits, and more to fit your specific needs.
 - **Versatile**: Works as both a `Node.js`, `Deno`, `Bun` library and a CLI tool, giving flexibility for scripts and terminal usage.
 - **Color Output**: Easily distinguish keys, strings, numbers, and more with customizable color formatting.
@@ -148,7 +148,7 @@ cat package.json | prettyoutput --indent=4 --depth=5 --noColor
 ```
 
 ## Benchmark
-Performance is key for logging, and pretty-output is built to be fast. Compared to alternatives like `util.inspect` and `prettyjson`, it consistently performs 2-5 times faster.
+Performance is key for logging, and pretty-output is built to be fast. Compared to alternatives like `util.inspect` and `prettyjson`, it consistently performs 1.x-3.x times faster.
 
 ### Run Benchmarks
 ```bash
