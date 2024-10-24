@@ -55,13 +55,23 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
 
         if (noRender) {
             output += input as string
-        } else if (depth > options.maxDepth) {
+            continue
+        }
+
+        if (depth > options.maxDepth) {
             output += renderMaxDepth(indentation)
-        } else if (isSerializable(input)) {
+            continue
+        }
+        if (isSerializable(input)) {
             output += renderSerializable(input, options, indentation)
-        } else if (typeof input === 'string') {
+            continue
+        }
+        if (typeof input === 'string') {
             output += renderMultilineString(input, options, indentation)
-        } else if (Array.isArray(input)) {
+            continue
+        }
+
+        if (Array.isArray(input)) {
             for (let i = input.length - 1; i >= 0; i--) {
                 const value = input[i]
 
@@ -84,7 +94,10 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
                 })
                 stack.push(defaultStack(`${renderDash(options, indentation)}\n`))
             }
-        } else if (typeof input === 'object' && input !== null) {
+            continue
+        }
+
+        if (typeof input === 'object' && input !== null) {
             const keys = Object.getOwnPropertyNames(input)
             const valueColumn = options.alignKeyValues ? maxLength(keys) : 0
 
