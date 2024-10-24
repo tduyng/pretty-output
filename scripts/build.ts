@@ -8,6 +8,7 @@ const execAsync = promisify(exec)
 
 async function run() {
     try {
+        await execAsync('rm -rf lib')
         await execAsync('npx tsc -p tsconfig.lib.json --module NodeNext --outDir lib/esm')
         await writeFile('lib/esm/package.json', '{"type": "module"}')
 

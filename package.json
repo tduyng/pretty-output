@@ -37,18 +37,18 @@
         "url": "http://github.com/tduyng/pretty-output/issues"
     },
     "type": "module",
-    "files": ["/lib"],
+    "files": ["/lib", "/bin"],
     "main": "lib/esm/index.js",
     "types": "lib/esm/index.d.ts",
     "exports": {
         ".": {
-            "require": {
-                "default": "./lib/cjs/index.js",
-                "types": "./lib/cjs/index.d.ts"
-            },
             "import": {
                 "default": "./lib/esm/index.js",
                 "types": "./lib/esm/index.d.ts"
+            },
+            "require": {
+                "default": "./lib/cjs/index.js",
+                "types": "./lib/cjs/index.d.ts"
             }
         }
     },
@@ -64,7 +64,12 @@
         "examples": "tsx ./examples/example.ts"
     },
     "bin": {
-        "prettyoutput": "./bin/pretty_output"
+        "pretty": "./bin/pretty_output.js",
+        "prettyoutput": "./bin/pretty_output.js",
+        "pretty-esm": "./bin/pretty_output.js",
+        "prettyoutput-esm": "./bin/pretty_output.js",
+        "pretty-cjs": "./bin/pretty_output.cjs",
+        "prettyoutput-cjs": "./bin/pretty_output.cjs"
     },
     "dependencies": {
         "commander": "12.x"
