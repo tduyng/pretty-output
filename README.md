@@ -1,24 +1,34 @@
-# prettyoutput [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Test coverage][coveralls-image]][coveralls-url]
+# pretty-output
 
-Library to format js/json object into YAML style readable output.
-It's performance centric to be used as a logger formatter.
-It's currently 3 to 5 times quicker than util.inspect used by many loggers.
-It's available as a NodeJS library or a cli too.
+pretty-output is a fast, customizable library for formatting JavaScript/JSON objects into a human-readable, YAML-style output. 
 
-## How to install
+[![Version npm](https://img.shields.io/npm/v/pretty-output.svg?style=flat-square)](https://www.npmjs.com/package/pretty-output)
+[![npm Downloads](https://img.shields.io/npm/dm/pretty-output.svg?style=flat-square)](https://npmcharts.com/compare/pretty-output?minimal=true)
+[![build status](https://github.com/tduyng/pretty-output/actions/workflows/ci.yaml/badge.svg)](https://github.com/tduyng/pretty-output/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/tduyng/pretty-output/badge.svg?branch=2.x)](https://coveralls.io/github/tduyng/pretty-output?branch=2.x)
 
-Via NPM:
+
+## Features
+- **High Performance**: Optimized to be 3-5 times faster than util.inspect, making it ideal for real-time logging.
+- **Customizable**: Choose your own indentation, color schemes, depth limits, and more to tailor output to your needs.
+- **Versatile**: Available as both a Node.js library and a CLI tool for easy use in scripts and terminals.
+- **Color Output**: Adds a splash of color to differentiate keys, strings, numbers, and more for improved readability.
+
+
+## Installation
 
 ```bash
-$ npm install prettyoutput
+npm add pretty-output
+yarn add pretty-output
+pnpm add pretty-output
 ```
 
-## Using it
+## Usage
 
-It's pretty easy to use. Just have include it in your script and call it:
+pretty-output is extremely easy to use. Just require it in your project and call the function with your data:
 
 ```javascript
-const prettyoutput = require('prettyoutput')
+import { prettyOutput } from 'pretty-output'
 
 const data = {
   username: 'kic',
@@ -26,105 +36,123 @@ const data = {
   projects: ['prettyoutput', '3m2tuio']
 }
 
-console.log(prettyoutput(data))
+console.log(prettyOutput(data))
 ```
 
-Output:
+Sample output:
+
+```bash
+username: kic
+url: https://github.com/keepitcool
+projects:
+  - pretty-output
+  - 3m2tuio
+```
+
+Other example:
 
 ![Example](docs/images/example.png)
 
-### API
+## API
 
-```javascript
-const prettyoutput = require('prettyoutput')
-prettyoutput(data, options, indent)
+`prettyoutput(data, options, indent)`
+### Parameters
+```md
+ * {*} data                     : The JavaScript or JSON object to format
+ * {Object} [options]           : Optional. See options below
+ * {number} [indent]            : Optional. Indent all output
 ```
 
-Parameters are :
- * {*} data            : js or json object
- * {Object} [options]  : Optional. See options below
- * {number} [indent]   : Optional. Indent all output
+### Options
+```md
+ * {number} [indentationLength] : Length of indentation (in terms of space)
+ * {number} [maxDepth]          : maximum sublevel of nested objects/arrays output. Default: 3
+ * {boolean}[noColor]           : disable colors. Default: false
+ * {colors} [colors]            : Output colors. See below
+ * {boolean}[alignKeyValues]    : Align key values. Default: true
+ * {boolean}[hideUndefined]     : Do not display undefined values. Default: false
+```
 
-Options are :
- * {number} [indentationLength]  : Length of indentation (in terms of space)
- * {number} [maxDepth]           : maximum sublevel of nested objects/arrays to output. Default: 3
- * {boolean} [noColor]           : disable colors. Default: false
- * {colors} [colors]             : Output colors. See below
- * {boolean} [alignKeyValues]    : Align key values. Default: true
- * {boolean} [hideUndefined]     : Do not display undefined values. Default: false
-
-Colors are :
- * {string} [keys]       : Objects keys color. Default: green
- * {string} [dash]       : Array prefixing dash ("- "). Default: green
- * {string} [number]     : Numbers color. Default: blue
- * {string} [string]     : Strings color. Default: no color
- * {string} [true]       : Boolean value 'true' color. Default: green
- * {string} [false]      : Boolean value 'false' color. Default: red
- * {string} [null]       : 'Null' color. Default: grey
- * {string} [undefined]  : 'Undefined' color. Default: grey
+### Colors Options
+```
+ * {string} [keys]              : Objects keys color. Default: green
+ * {string} [dash]              : Array prefixing dash ("- "). Default: green
+ * {string} [number]            : Numbers color. Default: blue
+ * {string} [string]            : Strings color. Default: no color
+ * {string} [true]              : Boolean value 'true' color. Default: green
+ * {string} [false]             : Boolean value 'false' color. Default: red
+ * {string} [null]              : 'Null' color. Default: grey
+ * {string} [undefined]         : 'Undefined' color. Default: grey
+```
 
 Example using options :
 ```javascript
-const prettyoutput = require('prettyoutput')
+import { prettyOutput } from 'pretty-output'
 
 const data = {
   username: 'kic',
   url: 'https://github.com/keepitcool',
-  projects: ['prettyoutput', '3m2tuio']
-}
-
-const colors = {
-  keys: 'blue',
-  'null': 'red'
-}
+  projects: ['pretty-output', '3m2tuio']
+};
 
 const options = {
   noColor: true,
   maxDepth: 5,
-  colors: colors
+  colors: {
+    keys: 'blue',
+    null: 'red'
+  }
 };
 
-console.log(prettyoutput(data, options, 2);
+console.log(prettyOutput(data, options, 2));
 ```
 
-## Cli usage
+## CLI Usage
 
-Command line tool support file param or stdin.
+You can also use pretty-output directly from the command line to format files or standard input.
 
 Usage:
 ```bash
-$ prettyoutput package.json
+# Pretty print a JSON file
+prettyoutput package.json       # for ESM
+pretty package.json             # for ESM
+prettyoutput-esm package.json   # for ESM
+pretty-esm package.json         # for ESM
+prettyoutput-cjs package.json   # for CJS
+pretty package.json             # for CJS
 ```
 
-This should output :
-![Example](docs/images/example_cli.png)
+Example CLI Output:
 
-### Command line options
+![Example](docs/images/cli.png)
 
-It's possible to customize the output through some command line options:
+### Command Line Options
+
+- `--indent`: Set the indentation level (default: 2).
+- `--depth`: Limit the depth of object printing (default: 3).
+- `--noColor`: Disable colored output.
 
 ```bash
-# Indent 4, max depth 5, disable colors
-$ prettyjson --indent=4 --depth=5 --noColor package.json
+# Format with custom indentation, depth, and no color
+prettyoutput --indent=4 --depth=5 --noColor package.json
 ```
 
 or
 
 ```bash
 # Indent 4, max depth 5, disable colors
-$ cat package.json | prettyjson --indent=4 --depth=5 --noColor
+cat package.json | prettyoutput --indent=4 --depth=5 --noColor
 ```
 
 ## Benchmark
-Project target logging, so performance is an issue.
-Currently, prettyoutput is 3 times quicker than util.inspect and 2.5 times quicker than prettyjson, the library it's inspired from.
+Performance is key for logging, and pretty-output is built to be fast. Compared to alternatives like util.inspect and prettyjson, it consistently performs 2.5-5 times faster.
 
-To run benchmark, just run :
+### Run Benchmarks
 ```bash
-$ node benchmark/benchmark.js
+node benchmark/benchmark.js
 ```
 
-Results :
+### Benchmark Results
 ```
 LEVELS | KEYS | LOOPS | WEIGTHS
 3      | 20   | 100   | serializable: 0.9    array: 0.3    object: 0.5    multilineString: 0.3    error: 0.2
@@ -154,27 +182,23 @@ util.inspect | 1 s 623 ms 160 µs 631 ns | 2 s 460 ms 983 µs 994 ns | 1 s 731 m
 
 ```
 
-## Running Tests
+## Testing
 
-To run the test suite first invoke the following command within the repo,
-installing the development dependencies:
-
-```bash
-$ npm install
-```
-
-then run the tests:
+Clone the repository and install development dependencies:
 
 ```bash
-$ npm test
+yarn install
 ```
 
-[npm-image]: https://img.shields.io/npm/v/prettyoutput.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/prettyoutput
-[travis-image]: https://img.shields.io/travis/keepitcool/prettyoutput/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/keepitcool/prettyoutput
-[coveralls-image]: https://img.shields.io/codecov/c/github/keepitcool/prettyoutput.svg?style=flat-square
-[coveralls-url]: https://codecov.io/github/keepitcool/prettyoutput?branch=master
+Run tests:
+
+```bash
+yarn test
+```
+
+## Contribution
+If you'd like to contribute to this project, feel free to submit issues and pull requests. Contributions are always welcome!
+
 
 ## Credits
-This is a fork of the great work from the project [prettyoutput](https://github.com/keepitcool/prettyoutput)
+pretty-output is a fork of the archived [prettyoutput project](https://github.com/keepitcool/prettyoutput). Special thanks to all contributors who helped improve it over time.
