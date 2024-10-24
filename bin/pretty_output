@@ -1,15 +1,16 @@
 #!/usr/bin/env node
+import fs from 'node:fs'
+import { Command } from 'commander'
+import { prettyoutput } from '../lib/esm/index.js'
+import { colors } from '../lib/esm/colors.js'
 
-const { prettyoutput } = require('../lib/index')
-const fs = require('node:fs')
-const colors = require('colors/safe')
+const { version } = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url)))
 
-const { Command } = require('commander')
 const program = new Command()
 
 program
     .usage('[options] <file ...>')
-    .version(require('../package.json').version)
+    .version(version)
     .option('-i, --indent <indent>', 'Space per indent', Number.parseInt)
     .option('-n, --noColor', 'Disable color')
     .option('-d, --depth <depth>', 'Max depth inspection', Number.parseInt)
