@@ -9,7 +9,7 @@ const execAsync = promisify(exec)
 async function run() {
     try {
         await Promise.all([
-            execAsync('yarn tsc -p tsconfig.lib.json --module ESNext --outDir lib/esm'),
+            execAsync('yarn tsc -p tsconfig.lib.json --module NodeNext --outDir lib/esm'),
             execAsync('yarn tsc -p tsconfig.lib.json --module CommonJS --outDir lib/cjs'),
         ])
         await Promise.all([

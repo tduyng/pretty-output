@@ -83,6 +83,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
+        "@poppinss/dumper": "^0.4.2",
         "@types/columnify": "^1.5.4",
         "@types/mocha": "^10.0.9",
         "@types/node": "^22.7.9",

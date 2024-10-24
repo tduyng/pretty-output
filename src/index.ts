@@ -46,7 +46,7 @@ const parseOptions = (opts: Partial<RenderOptions> = {}): RenderOptions => {
 const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel = 0): string => {
     const options = parseOptions(opts)
     const stack: Stack[] = [{ indentation: indent(indentLevel), depth: 0, input }]
-    const outputs: string[] = []
+    let output = ''
 
     while (stack.length > 0) {
         const item = stack.pop()
@@ -54,13 +54,13 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
         const { indentation, depth, input, noRender } = item
 
         if (noRender) {
-            outputs.push(input as string)
+            output += input as string
         } else if (depth > options.maxDepth) {
-            outputs.push(renderMaxDepth(indentation))
+            output += renderMaxDepth(indentation)
         } else if (isSerializable(input)) {
-            outputs.push(renderSerializable(input, options, indentation))
+            output += renderSerializable(input, options, indentation)
         } else if (typeof input === 'string') {
-            outputs.push(renderMultilineString(input, options, indentation))
+            output += renderMultilineString(input, options, indentation)
         } else if (Array.isArray(input)) {
             for (let i = input.length - 1; i >= 0; i--) {
                 const value = input[i]
@@ -133,7 +133,7 @@ const prettyOutput = (input: unknown, opts?: Partial<RenderOptions>, indentLevel
         }
     }
 
-    return outputs.join('')
+    return output
 }
 
 export default prettyOutput
