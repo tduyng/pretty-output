@@ -1,5 +1,5 @@
-import type { Color, InputColor, RenderOptions } from './definitions'
-import { alignString, colorString, repeat } from './utils'
+import type { Color, InputColor, RenderOptions } from './definitions.js'
+import { alignString, colorString, repeat } from './utils.js'
 
 /**
  * Get color of an input

@@ -1,4 +1,4 @@
-import { prettyoutput } from '../src/index'
+import { prettyoutput } from '../src/index.js'
 
 const data = {
     username: 'kic',

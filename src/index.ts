@@ -1,4 +1,4 @@
-import type { RenderOptions, Stack } from './definitions'
+import type { RenderOptions, Stack } from './definitions.js'
 import {
     indentString,
     renderDash,
@@ -11,8 +11,8 @@ import {
     renderSerializable,
     renderSerializableArrayValue,
     renderSerializableObjectValue,
-} from './renderer'
-import { indent, isSerializable, maxLength } from './utils'
+} from './renderer.js'
+import { indent, isSerializable, maxLength } from './utils.js'
 
 const defaultStack = (input: string): Stack => ({
     input,

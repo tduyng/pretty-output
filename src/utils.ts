@@ -1,5 +1,5 @@
-import { colors } from './colors'
-import type { Color } from './definitions'
+import { colors } from './colors.js'
+import type { Color } from './definitions.js'
 
 /**
  * Creates a string with specified spaces count
