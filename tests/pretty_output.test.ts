@@ -265,6 +265,34 @@ describe('prettyoutput general tests', () => {
             ].join('\n')
         )
     })
+
+    it('should handle maxDeep object value render', () => {
+        const input = { deep: { deep1: { deep2: { deep3: { deep4: 'deep4Value' } } } } }
+        const output = prettyoutput(input, { maxDepth: 3 })
+
+        assert.strictEqual(
+            output,
+            [
+                `${colors.green('deep: ')}`,
+                `${colors.green('  deep1: ')}`,
+                `${colors.green('    deep2: ')}`,
+                `${colors.green('      deep3: ')}(max depth reached)`,
+                '',
+            ].join('\n')
+        )
+    })
+
+    it('should handle maxDeep array value render', () => {
+        const input = { deep: [{ deep1: [{ deep2: { deep3: { deep4: ['deep4Value'] } } }] }] }
+        const output = prettyoutput(input, { maxDepth: 1 })
+
+        assert.strictEqual(
+            output,
+            [`${colors.green('deep: ')}`, `${colors.green('  - ')}(max depth reached)`, ''].join(
+                '\n'
+            )
+        )
+    })
 })
 
 describe('Printing numbers, booleans and other objects', () => {

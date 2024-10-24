@@ -37,7 +37,10 @@
         "url": "http://github.com/tduyng/pretty-output/issues"
     },
     "type": "module",
-    "files": ["/lib", "/bin"],
+    "files": [
+        "/lib",
+        "/bin"
+    ],
     "main": "lib/esm/index.js",
     "types": "lib/esm/index.d.ts",
     "exports": {
@@ -57,19 +60,19 @@
         "lint": "biome check --write",
         "check": "biome check",
         "build": "tsx scripts/build.ts",
-        "test": "mocha 'tests/**/*.[tj]s' --reporter spec",
-        "coverage": "nyc npm run test",
+        "test": "mocha 'tests/**/*.[tj]s'",
+        "coverage": "c8 -r=cobertura -r=lcov -r=text-summary npm run test",
         "benchmark": "tsx ./benchmark/benchmark.js",
         "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent",
         "examples": "tsx ./examples/example.ts"
     },
     "bin": {
         "pretty": "./bin/pretty_output.js",
-        "prettyoutput": "./bin/pretty_output.js",
-        "pretty-esm": "./bin/pretty_output.js",
-        "prettyoutput-esm": "./bin/pretty_output.js",
         "pretty-cjs": "./bin/pretty_output.cjs",
-        "prettyoutput-cjs": "./bin/pretty_output.cjs"
+        "pretty-esm": "./bin/pretty_output.js",
+        "prettyoutput": "./bin/pretty_output.js",
+        "prettyoutput-cjs": "./bin/pretty_output.cjs",
+        "prettyoutput-esm": "./bin/pretty_output.js"
     },
     "dependencies": {
         "commander": "12.x"
@@ -80,9 +83,9 @@
         "@types/mocha": "^10.0.9",
         "@types/node": "^22.7.9",
         "@types/prettyjson": "^0.0.33",
+        "c8": "^10.1.2",
         "columnify": "^1.6.0",
         "mocha": "^10.7.3",
-        "nyc": "^17.1.0",
         "prettyjson": "^1.2.5",
         "tsx": "^4.19.1",
         "typescript": "^5.6.3"
