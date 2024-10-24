@@ -36,6 +36,7 @@
     "bugs": {
         "url": "http://github.com/tduyng/pretty-output/issues"
     },
+    "type": "module",
     "main": "./lib/prettyoutput",
     "license": "MIT",
     "scripts": {
@@ -44,7 +45,7 @@
         "build": "tsc -p tsconfig.lib.json",
         "test": "mocha 'tests/**/*.[tj]s' --reporter spec",
         "coverage": "nyc npm run test",
-        "benchmark": "node ./benchmark/benchmark.js",
+        "benchmark": "tsx ./benchmark/benchmark.js",
         "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --pretty='* %s' --first-parent",
         "examples": "tsx ./examples/example.ts"
     },
@@ -56,8 +57,10 @@
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
+        "@types/columnify": "^1.5.4",
         "@types/mocha": "^10.0.9",
         "@types/node": "^22.7.9",
+        "@types/prettyjson": "^0.0.33",
         "@types/should": "^13.0.0",
         "columnify": "^1.6.0",
         "mocha": "^10.7.3",

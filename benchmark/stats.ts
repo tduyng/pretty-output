@@ -1,11 +1,10 @@
-// biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
-const fixedInt = (exports.fixedInt = (v) => Math.floor(v))
+export const fixedInt = (v: number): number => Math.floor(v)
 
 /**
  *
  * @param {number} time - in nano seconds
  */
-exports.prettyTime = (time) => {
+export const prettyTime = (time: number): string => {
     const mn = fixedInt(time / 1e12)
     const s = fixedInt(time / 1e9) - fixedInt(mn * 1e3)
     const ms = fixedInt(time / 1e6) - fixedInt(mn * 1e6) - fixedInt(s * 1e3)
@@ -28,9 +27,23 @@ exports.prettyTime = (time) => {
     return result
 }
 
-exports.stats = (diffs) => {
-    let min = diffs[0]
-    let max = diffs[0]
+type Stats = {
+    min: number
+    max: number
+    mean: number
+    total: number
+}
+
+type PrettyStats = {
+    min: string
+    max: string
+    mean: string
+    total: string
+}
+
+export const stats = (diffs: number[]): Stats => {
+    let min = diffs[0] ?? 0
+    let max = diffs[0] ?? 0
     let total = 0
 
     for (const diff of diffs) {
@@ -43,12 +56,11 @@ exports.stats = (diffs) => {
     return { min, max, mean, total }
 }
 
-exports.prettyStats = (stats) => {
-    const result = {}
-    result.min = exports.prettyTime(stats.min)
-    result.max = exports.prettyTime(stats.max)
-    result.mean = exports.prettyTime(stats.mean)
-    result.total = exports.prettyTime(stats.total)
-
-    return result
+export const prettyStats = (stats: Stats): PrettyStats => {
+    return {
+        min: prettyTime(stats.min),
+        max: prettyTime(stats.max),
+        mean: prettyTime(stats.mean),
+        total: prettyTime(stats.total),
+    }
 }

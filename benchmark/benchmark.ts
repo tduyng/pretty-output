@@ -1,13 +1,22 @@
-const util = require('node:util')
-const columnify = require('columnify')
-const prettyjson = require('prettyjson')
+import util from 'node:util'
+import columnify from 'columnify'
+import prettyjson from 'prettyjson'
 
-const fixture = require('./fixture')
-const prettyoutput = require('../lib/index')
-const stats = require('./stats')
+import { makeElement } from './fixture.js'
+import prettyoutput from '../src/index.js'
+import { stats, prettyStats } from './stats.js'
 
-function runFunction(loopCount, fn) {
-    const diffs = []
+type Weights = Record<string, number>
+
+interface BenchDesc {
+    levels: number
+    keys: number
+    loops: number
+    weights: string
+}
+
+function runFunction(loopCount: number, fn: () => void): number[] {
+    const diffs: number[] = []
 
     for (let i = 0; i < loopCount; i++) {
         const time = process.hrtime()
@@ -20,57 +29,55 @@ function runFunction(loopCount, fn) {
     return diffs
 }
 
-function runPrettyOutput(element, loopCount) {
+function runPrettyOutput(element: unknown, loopCount: number): number[] {
     return runFunction(loopCount, () => {
         prettyoutput(element, { noColor: true, maxDepth: 100 })
     })
 }
 
-function runUtilInspect(element, loopCount) {
+function runUtilInspect(element: unknown, loopCount: number): number[] {
     return runFunction(loopCount, () => {
         util.inspect(element, { depth: 100 })
     })
 }
 
-function runPrettyJson(element, loopCount) {
+function runPrettyJson(element: unknown, loopCount: number): number[] {
     return runFunction(loopCount, () => {
         prettyjson.render(element, { noColor: true })
     })
 }
 
-function prettyWeights(weights) {
-    let result = ''
-    for (const [key, value] of Object.entries(weights)) {
-        result += `${key}: ${value}    `
-    }
-    return result
+function prettyWeights(weights: Weights): string {
+    return Object.entries(weights)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('    ')
 }
 
-function makeBench(weights, levels, keysCount, loopCount) {
+function makeBench(weights: Weights, levels: number, keysCount: number, loopCount: number): void {
     console.log('\n')
 
-    const benchDesc = {
-        levels: levels,
+    const benchDesc: BenchDesc = {
+        levels,
         keys: keysCount,
         loops: loopCount,
         weights: prettyWeights(weights),
     }
     console.log(columnify([benchDesc], { columnSplitter: ' | ' }), '\n')
 
-    const element = fixture.makeElement(weights, levels, keysCount)
+    const element = makeElement(weights, levels, keysCount)
 
     const prettyOutputDiffs = runPrettyOutput(element, loopCount)
     const prettyJsonDiffs = runPrettyJson(element, loopCount)
     const utilInspectDiffs = runUtilInspect(element, loopCount)
 
-    const prettyOutputStats = stats.stats(prettyOutputDiffs)
-    const prettyJsonStats = stats.stats(prettyJsonDiffs)
-    const utilInspectStats = stats.stats(utilInspectDiffs)
+    const prettyOutputStats = stats(prettyOutputDiffs)
+    const prettyJsonStats = stats(prettyJsonDiffs)
+    const utilInspectStats = stats(utilInspectDiffs)
 
     const result = [
-        { name: 'pretty-output', ...stats.prettyStats(prettyOutputStats) },
-        { name: 'prettyjson', ...stats.prettyStats(prettyJsonStats) },
-        { name: 'util.inspect', ...stats.prettyStats(utilInspectStats) },
+        { name: 'pretty-output', ...prettyStats(prettyOutputStats) },
+        { name: 'prettyjson', ...prettyStats(prettyJsonStats) },
+        { name: 'util.inspect', ...prettyStats(utilInspectStats) },
     ]
 
     console.log(columnify(result, { columnSplitter: ' | ' }))
