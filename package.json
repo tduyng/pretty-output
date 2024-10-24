@@ -61,12 +61,10 @@
         "@types/mocha": "^10.0.9",
         "@types/node": "^22.7.9",
         "@types/prettyjson": "^0.0.33",
-        "@types/should": "^13.0.0",
         "columnify": "^1.6.0",
         "mocha": "^10.7.3",
         "nyc": "^17.1.0",
         "prettyjson": "^1.2.5",
-        "should": "^13.2.3",
         "tsx": "^4.19.1",
         "typescript": "^5.6.3"
     },

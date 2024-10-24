@@ -1,34 +1,35 @@
-import { prettyoutput } from '../src/index'
-import { colors } from '../src/colors'
-import 'should'
+import assert from 'node:assert'
+import { prettyoutput } from '../src/index.js'
+import { colors } from '../src/colors.js'
 
 describe('prettyoutput general tests', () => {
     it('should output a string exactly equal as the input', () => {
         const input = 'This is a string'
         const output = prettyoutput(input)
 
-        output.should.equal(`${input}\n`)
+        assert.strictEqual(output, `${input}\n`)
     })
 
     it('should output a string with indentation', () => {
         const input = 'This is a string'
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${input}\n`)
+        assert.strictEqual(output, `    ${input}\n`)
     })
 
     it('should output a multiline string with indentation', () => {
         const input = 'multiple\nlines'
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal('    """\n      multiple\n      lines\n    """\n')
+        assert.strictEqual(output, `    """\n      multiple\n      lines\n    """\n`)
     })
 
     it('should output an array of strings', () => {
         const input = ['first string', 'second string']
         const output = prettyoutput(input)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [colors.green('- ') + input[0], colors.green('- ') + input[1], ''].join('\n')
         )
     })
@@ -37,7 +38,8 @@ describe('prettyoutput general tests', () => {
         const input = ['first string', ['nested 1', 'nested 2'], 'second string']
         const output = prettyoutput(input)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('- ') + input[0],
                 colors.green('- '),
@@ -53,7 +55,8 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 'first string', param2: 'second string' }
         const output = prettyoutput(input)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.green('param1: ')}first string`,
                 `${colors.green('param2: ')}second string`,
@@ -69,7 +72,8 @@ describe('prettyoutput general tests', () => {
         }
         const output = prettyoutput(input)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('firstParam: '),
                 `${colors.green('  subparam: ')} first string`,
@@ -84,7 +88,8 @@ describe('prettyoutput general tests', () => {
         const input = { veryLargeParam: 'first string', param: 'second string' }
         const output = prettyoutput(input)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.green('veryLargeParam: ')}first string`,
                 `${colors.green('param: ')}         second string`,
@@ -112,7 +117,8 @@ describe('prettyoutput general tests', () => {
 
         const output = prettyoutput(input)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('firstParam: '),
                 `${colors.green('  subparam: ')} first string`,
@@ -136,7 +142,8 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 'first string', param2: 'second string' }
         const output = prettyoutput(input, { colors: { keys: 'blue' } })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.blue('param1: ')}first string`,
                 `${colors.blue('param2: ')}second string`,
@@ -149,7 +156,8 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 17, param2: 22.3 }
         const output = prettyoutput(input, { colors: { number: 'red' } })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('param1: ') + colors.red('17'),
                 colors.green('param2: ') + colors.red('22.3'),
@@ -162,7 +170,8 @@ describe('prettyoutput general tests', () => {
         const input = { paramLong: 'first string', param2: 'second string' }
         const output = prettyoutput(input, { colors: { keys: 'rainbow' } })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.rainbow('paramLong: ')}first string`,
                 `${colors.rainbow('param2: ')}   second string`,
@@ -175,7 +184,8 @@ describe('prettyoutput general tests', () => {
         const input = { param: ['first string', 'second string'] }
         const output = prettyoutput(input, { indentationLength: 4 })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('param: '),
                 `${colors.green('    - ')}first string`,
@@ -189,14 +199,15 @@ describe('prettyoutput general tests', () => {
         const input: string[] = []
         const output = prettyoutput(input, {})
 
-        output.should.equal(['(empty array)', ''].join('\n'))
+        assert.strictEqual(output, ['(empty array)', ''].join('\n'))
     })
 
     it('should allow to configure colors for strings', () => {
         const input = { param1: 'first string', param2: 'second string' }
         const output = prettyoutput(input, { colors: { keys: 'blue', string: 'red' } })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.blue('param1: ') + colors.red('first string'),
                 colors.blue('param2: ') + colors.red('second string'),
@@ -209,7 +220,8 @@ describe('prettyoutput general tests', () => {
         const input = { param1: 'first string', param2: ['second string'] }
         const output = prettyoutput(input, { noColor: true })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             ['param1: first string', 'param2: ', '  - second string', ''].join('\n')
         )
     })
@@ -230,7 +242,8 @@ describe('prettyoutput general tests', () => {
 
         const output = prettyoutput(new Input())
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.green('param1: ')}first string`,
                 `${colors.green('param2: ')}second string`,
@@ -243,7 +256,8 @@ describe('prettyoutput general tests', () => {
         const input = { veryLargeParam: 'first string', param: 'second string' }
         const output = prettyoutput(input, { alignKeyValues: false })
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.green('veryLargeParam: ')}first string`,
                 `${colors.green('param: ')}second string`,
@@ -258,39 +272,39 @@ describe('Printing numbers, booleans and other objects', () => {
         const input = 12345
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${colors.blue('12345')}\n`)
+        assert.strictEqual(output, `    ${colors.blue('12345')}\n`)
     })
 
     it('should print booleans correctly ', () => {
         let input = true
         let output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${colors.green('true')}\n`)
+        assert.strictEqual(output, `    ${colors.green('true')}\n`)
 
         input = false
         output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${colors.red('false')}\n`)
+        assert.strictEqual(output, `    ${colors.red('false')}\n`)
     })
 
     it('should print a null object correctly ', () => {
         const input = null
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${colors.grey('null')}\n`)
+        assert.strictEqual(output, `    ${colors.grey('null')}\n`)
     })
 
     it('should print undefined correctly ', () => {
         const input = undefined
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${colors.grey('undefined')}\n`)
+        assert.strictEqual(output, `    ${colors.grey('undefined')}\n`)
     })
 
     it('should not print undefined if hideUndefined is true', () => {
         const input = { foo: undefined }
         const output = prettyoutput(input, { hideUndefined: true }, 4)
-        output.should.equal('')
+        assert.strictEqual(output, '')
     })
 
     it('should print an Error correctly ', () => {
@@ -299,7 +313,8 @@ describe('Printing numbers, booleans and other objects', () => {
         const stack = input.stack?.split('\n')
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('    stack: '),
                 colors.green('      - ') + stack?.[0],
@@ -314,7 +329,8 @@ describe('Printing numbers, booleans and other objects', () => {
         const dt = new Date()
         const output = prettyoutput(['a', 3, null, true, false, dt])
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 `${colors.green('- ')}a`,
                 colors.green('- ') + colors.blue('3'),
@@ -332,7 +348,7 @@ describe('Printing numbers, booleans and other objects', () => {
         const expected = input.toString()
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(`    ${expected}\n`)
+        assert.strictEqual(output, `    ${expected}\n`)
     })
 
     it('should print dates in objects correctly', () => {
@@ -346,7 +362,8 @@ describe('Printing numbers, booleans and other objects', () => {
 
         const output = prettyoutput(input, {}, 4)
 
-        output.should.equal(
+        assert.strictEqual(
+            output,
             [
                 colors.green('    dt1: ') + dt1.toString(),
                 colors.green('    dt2: ') + dt2.toString(),
