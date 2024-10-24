@@ -13,7 +13,7 @@ pretty-output is a fast, customizable library for formatting JavaScript/JSON obj
 - **Customizable**: Choose your own indentation, color schemes, depth limits, and more to tailor output to your needs.
 - **Versatile**: Available as both a Node.js library and a CLI tool for easy use in scripts and terminals.
 - **Color Output**: Adds a splash of color to differentiate keys, strings, numbers, and more for improved readability.
-
+- **Dual Package**: Available as both an ES module and a CommonJS module, making it compatible with various JavaScript environments.
 
 ## Installation
 
