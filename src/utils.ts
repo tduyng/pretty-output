@@ -1,20 +1,43 @@
 import { colors } from './colors.js'
 import type { Color } from './definitions.js'
 
+const cache = new Map<number, string>()
+const CLEANUP_THRESHOLD = 1000
+let cacheInsertCount = 0
+const cleanupCache = () => {
+    cache.clear()
+}
+
 /**
  * Creates a string with specified spaces count
  * @param {number} spaceCount - space count
  * @return {string}
  */
-export const indent = (spaceCount: number): string => repeat(' ', spaceCount)
+export const indent = (spaceCount: number): string => {
+    if (!cache.has(spaceCount)) {
+        cache.set(spaceCount, ' '.repeat(spaceCount))
+        cacheInsertCount++
+
+        if (cacheInsertCount >= CLEANUP_THRESHOLD) {
+            cacheInsertCount = 0
+            cleanupCache()
+        }
+    }
+    return cache.get(spaceCount) as string
+}
 
 /**
  * Gets longest string length
  * @param {Array<string>} strings
  * @return {number}
  */
-export const maxLength = (strings: string[]): number =>
-    strings.reduce((max, str) => Math.max(max, str.length), 0)
+export const maxLength = (strings: string[]): number => {
+    let max = 0
+    for (const str of strings) {
+        if (str?.length > max) max = str.length
+    }
+    return max
+}
 
 /**
  *
@@ -23,7 +46,10 @@ export const maxLength = (strings: string[]): number =>
  * @return {string} - Indented multiline string
  */
 export const alignString = (input: string, indentation: string): string =>
-    `${indentation}${input}`.replace(/\n/g, `\n${indentation}`)
+    input
+        .split('\n')
+        .map((line) => `${indentation}${line}`)
+        .join('\n')
 
 /**
  *
@@ -45,13 +71,6 @@ export const isSerializable = (input: unknown): boolean => {
     if (input === null || input === undefined) return true
     if (typeof input === 'boolean' || typeof input === 'number' || input instanceof Date)
         return true
-    if (typeof input === 'string') return isSingleLineString(input)
+    if (typeof input === 'string' && !input.includes('\n')) return true
     return Array.isArray(input) && input.length === 0
 }
-
-/**
- *
- * @param {string} input
- * @return {boolean} - true if it's a string and it's single line
- */
-export const isSingleLineString = (input: string): boolean => !input.includes('\n')
