@@ -1,6 +1,6 @@
 import assert from 'node:assert'
-import { prettyoutput } from '../src/index.js'
 import { colors } from '../src/colors.js'
+import { prettyoutput } from '../src/index.js'
 
 describe('prettyoutput general tests', () => {
     it('should output a string exactly equal as the input', () => {

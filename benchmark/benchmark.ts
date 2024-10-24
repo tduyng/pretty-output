@@ -2,9 +2,9 @@ import util from 'node:util'
 import columnify from 'columnify'
 import prettyjson from 'prettyjson'
 
-import { makeElement } from './fixture.js'
 import prettyoutput from '../src/index.js'
-import { stats, prettyStats } from './stats.js'
+import { makeElement } from './fixture.js'
+import { prettyStats, stats } from './stats.js'
 
 type Weights = Record<string, number>
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import fs from 'node:fs'
 import { Command } from 'commander'
-import { prettyoutput } from '../lib/esm/index.js'
 import { colors } from '../lib/esm/colors.js'
+import { prettyoutput } from '../lib/esm/index.js'
 
 const { version } = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url)))
 

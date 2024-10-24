@@ -48,7 +48,8 @@
             "lib",
             "docs",
             "node_modules",
-            "out"
+            "out",
+            "package.json"
         ]
     }
 }
