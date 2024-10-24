@@ -7,13 +7,15 @@ pretty-output is a fast, customizable library for formatting JavaScript/JSON obj
 [![build status](https://github.com/tduyng/pretty-output/actions/workflows/ci.yaml/badge.svg)](https://github.com/tduyng/pretty-output/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/tduyng/pretty-output/badge.svg?branch=2.x)](https://coveralls.io/github/tduyng/pretty-output?branch=2.x)
 
-
 ## Features
-- **High Performance**: Optimized to be 3-5 times faster than util.inspect, making it ideal for real-time logging.
-- **Customizable**: Choose your own indentation, color schemes, depth limits, and more to tailor output to your needs.
-- **Versatile**: Available as both a Node.js library and a CLI tool for easy use in scripts and terminals.
-- **Color Output**: Adds a splash of color to differentiate keys, strings, numbers, and more for improved readability.
-- **Dual Package**: Available as both an ES module and a CommonJS module, making it compatible with various JavaScript environments.
+
+- **High Performance**: Optimized to be 2-5 times faster and more beautiful than `util.inspect`, making it ideal for real-time logging.
+- **Customizable**: Configure indentation, color schemes, depth limits, and more to fit your specific needs.
+- **Versatile**: Works as both a `Node.js`, `Deno`, `Bun` library and a CLI tool, giving flexibility for scripts and terminal usage.
+- **Color Output**: Easily distinguish keys, strings, numbers, and more with customizable color formatting.
+- **Dual Package**: Supports both ES modules and CommonJS, ensuring compatibility with various JavaScript environments.
+- **TypeScript Support**: Fully written in TypeScript, offering type safety and modern development practices.
+- **Simple and Tested**: Designed for ease of use with a thoroughly tested codebase.
 
 ## Installation
 
@@ -145,7 +147,7 @@ cat package.json | prettyoutput --indent=4 --depth=5 --noColor
 ```
 
 ## Benchmark
-Performance is key for logging, and pretty-output is built to be fast. Compared to alternatives like util.inspect and prettyjson, it consistently performs 2.5-5 times faster.
+Performance is key for logging, and pretty-output is built to be fast. Compared to alternatives like `util.inspect` and `prettyjson`, it consistently performs 2-5 times faster.
 
 ### Run Benchmarks
 ```bash
@@ -199,6 +201,6 @@ yarn test
 ## Contribution
 If you'd like to contribute to this project, feel free to submit issues and pull requests. Contributions are always welcome!
 
-
 ## Credits
-pretty-output is a fork of the archived [prettyoutput project](https://github.com/keepitcool/prettyoutput). Special thanks to all contributors who helped improve it over time.
+
+**pretty-output** is based on the original [prettyoutput](https://github.com/keepitcool/prettyoutput) project, which is now archived. Special thanks to [@bnadim](https://github.com/bnadim) for creating the original project, and to all contributors who helped enhance it over time.
