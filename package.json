@@ -37,12 +37,26 @@
         "url": "http://github.com/tduyng/pretty-output/issues"
     },
     "type": "module",
-    "main": "./lib/prettyoutput",
+    "files": ["/lib"],
+    "main": "lib/esm/index.js",
+    "types": "lib/esm/index.d.ts",
+    "exports": {
+        ".": {
+            "require": {
+                "default": "./lib/cjs/index.js",
+                "types": "./lib/cjs/index.d.ts"
+            },
+            "import": {
+                "default": "./lib/esm/index.js",
+                "types": "./lib/esm/index.d.ts"
+            }
+        }
+    },
     "license": "MIT",
     "scripts": {
         "lint": "biome check --write",
         "check": "biome check",
-        "build": "tsc -p tsconfig.lib.json",
+        "build": "tsx scripts/build.ts",
         "test": "mocha 'tests/**/*.[tj]s' --reporter spec",
         "coverage": "nyc npm run test",
         "benchmark": "tsx ./benchmark/benchmark.js",

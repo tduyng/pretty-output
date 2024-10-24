@@ -9,7 +9,6 @@
         "incremental": true,
         "lib": ["ES2023", "DOM"],
         "module": "NodeNext",
-        "moduleResolution": "NodeNext",
         "noErrorTruncation": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
@@ -25,6 +24,6 @@
         "strict": true,
         "target": "ES2020"
     },
-    "include": ["src/**/*", "tests/**/*", "examples/**/*", "benchmark/**/*"],
+    "include": ["src/**/*", "tests/**/*", "examples/**/*", "benchmark/**/*", "scripts/**/*"],
     "exclude": ["node_modules", "lib"]
 }
