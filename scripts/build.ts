@@ -10,7 +10,9 @@ async function run() {
     try {
         await Promise.all([
             execAsync('yarn tsc -p tsconfig.lib.json --module NodeNext --outDir lib/esm'),
-            execAsync('yarn tsc -p tsconfig.lib.json --module CommonJS --outDir lib/cjs'),
+            execAsync(
+                'yarn tsc -p tsconfig.lib.json --module CommonJS --moduleResolution Node --outDir lib/cjs'
+            ),
         ])
         await Promise.all([
             writeFile('lib/esm/package.json', '{"type": "module"}'),
